@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <from action="#" th:action="@{/results}" method="GET">
+            <div class="form-layout">
+                <p>Find Clients:</p>
+                <input class="search-field" type="text" th:name="@{client-name}"  method = "post" />
+                </br>
+                <button type="submit" value="Search">Search</button>
+            </div>
+            <div class="output">
+            <table class="table table-striped" th:if="${not #lists.isEmpty(clients)}">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td> Phone Number</td>
+                        </tr>
+                    </thead>
+                    <tr th:each="client : ${clients}">
+                        <td th:text="${client.name}"></td>
+                        <td th:text="${client.phone}"></td>
+                    </tr>
+                </table>
+            </div>
+    </from>
+</body>
