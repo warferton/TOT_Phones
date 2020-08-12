@@ -4,15 +4,47 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-    <from action="#" th:action="@{/results}" method="GET">
-            <div class="form-layout">
-                <p>Find Clients:</p>
-                <input class="search-field" type="text" th:name="@{client-name}"  method = "post" />
-                </br>
-                <button type="submit" value="Search">Search</button>
-            </div>
+
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <p>Clients Search</p>
+                </td>
+            </tr>
+            <tr>
+                <form action="#" th:action="@{/findClient}" th:object="${search_prefix}" method="GET">
+                    <td><input type="submit" value="Search"/></td>
+                    <td><input class="search-field" type="text" th:name="@{search_prefix}" required/></td>
+                </form>
+            </tr>
+            <tr><td>
+                <h4>Add New Client:</h4>
+            </td></tr>
+            <tr>
+                <td><p>Name</p></td>
+                <td><p>Phone</p></td>
+            </tr>
+            <form action="#" th:action="@{/addUser}" th:object="${client}" method="POST">
+                <tr>
+                    <td><input type="text" class="parameter-field" th:name="@{newClient.name}" th:field="*{name}" placeholder="John Smith"></td>
+                    <td><input type="tel" class="parameter-field" th:name="@{newClient.phone}" th:field="*{phone}" placeholder="123-456-7890"></td>
+                    <td><input type="submit" value="Add Client"/></td>
+                    <td th:if="${not #fields.hasErrors('all')}"><p th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></p></td>
+                </tr>
+                <tr>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-invalid"></td>
+                    <td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="field-invalid"></td>
+                </tr>
+            </form>
+            </tbody>
+        </table>
+        <div>
+            <a href="#" th:href="@{/}"><input type="button" value="Display All"></a>
+        </div>
             <div class="output">
-            <table class="table table-striped" th:if="${not #lists.isEmpty(clients)}">
+                <div th:if="${#lists.isEmpty(clients)}" class="field-invalid" th:text="'Nothing Found'"></div>
+            <table class="table-table-striped" th:if="${not #lists.isEmpty(clients)}">
                     <thead>
                         <tr>
                             <td>Name</td>
@@ -22,8 +54,9 @@
                     <tr th:each="client : ${clients}">
                         <td th:text="${client.name}"></td>
                         <td th:text="${client.phone}"></td>
+                        <td><a th:href="@{/deleteClient/{name}(name=${client.name})}" class="btn-link"/>Delete</td>
                     </tr>
                 </table>
             </div>
-    </from>
 </body>
+</html>
