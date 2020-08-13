@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" type="text/css" href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
@@ -58,8 +58,8 @@
                         </tr>
                     </thead>
                     <tr th:each="client : ${clients}" >
-                        <td class="col"><p th:text="${client.name}" class="h5"></p></td>
-                        <td class="col"><p th:text="${client.phone}" class="h5"></p></td>
+                        <td class="col out-client-info"><p th:text="${client.name}" class="h5"></p></td>
+                        <td class="col out-client-info"><p th:text="${client.phone}" class="h5"></p></td>
                         <td><a th:href="@{/deleteClient/{name}(name=${client.name})}" class="col btn btn-secondary btn-lg">Delete</a></td>
                     </tr>
                 </table>

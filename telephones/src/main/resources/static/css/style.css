@@ -2,7 +2,10 @@ body{
 padding-left:2em;
 padding-right:2em;
 }
+table {
+    width:100%;
+}
 
-table{
-justify-content:space-around;
+.output table td.out-client-info {
+    width:45%;
 }
