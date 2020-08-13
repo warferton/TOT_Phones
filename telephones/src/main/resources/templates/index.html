@@ -9,7 +9,7 @@
             <tbody>
             <tr>
                 <td>
-                    <p>Clients Search</p>
+                    <h3>Clients Search</h3>
                 </td>
             </tr>
             <tr>
@@ -27,10 +27,14 @@
             </tr>
             <form action="#" th:action="@{/addUser}" th:object="${client}" method="POST">
                 <tr>
-                    <td><input type="text" class="parameter-field" th:name="@{newClient.name}" th:field="*{name}" placeholder="John Smith"></td>
-                    <td><input type="tel" class="parameter-field" th:name="@{newClient.phone}" th:field="*{phone}" placeholder="123-456-7890"></td>
+                    <td><input type="text" class="parameter-field" th:name="@{newClient.name}" th:field="*{name}" placeholder="John Smith" required></td>
+                    <td><input type="tel" class="parameter-field" th:name="@{newClient.phone}" th:field="*{phone}" placeholder="123-456-7890" required></td>
                     <td><input type="submit" value="Add Client"/></td>
-                    <td th:if="${not #fields.hasErrors('all')}"><p th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></p></td>
+                    <td th:if="${not #fields.hasErrors('name')}">
+                        <div th:if="${not #fields.hasErrors('phone')}">
+                            <p th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="field-invalid"></p>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-invalid"></td>
@@ -44,7 +48,7 @@
         </div>
             <div class="output">
                 <div th:if="${#lists.isEmpty(clients)}" class="field-invalid" th:text="'Nothing Found'"></div>
-            <table class="table-table-striped" th:if="${not #lists.isEmpty(clients)}">
+            <table th:class="table-table-striped" th:if="${not #lists.isEmpty(clients)}">
                     <thead>
                         <tr>
                             <td>Name</td>

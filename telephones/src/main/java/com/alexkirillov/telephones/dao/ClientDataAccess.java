@@ -26,6 +26,13 @@ public class ClientDataAccess implements ClientDao {
         client_data_base.add(new Client("Koers McKenzie", "128-800-4583"));
     }
 
+    /**
+     *Adds a new <b>client</b> to the Data Base. Checks if a client with
+     * simmilar phone number or name exists, and if not adds new client.
+     * @param client
+     * @return 1 - if a new client was added successfully. 2 - if a client has an
+     *              already used phone or name.
+     */
     @Override
     public int addClient(@NotNull Client client) {
         /*не совсем понял условие техзадания
@@ -39,7 +46,7 @@ public class ClientDataAccess implements ClientDao {
          */
 
 
-        if(findClientByPhone(client.getPhone()).isEmpty())
+        if(findClientByPhone(client.getPhone()).equals(client.getPhone()))
         {
             if(!findClientByName(client.getName()).equals(client.getName())) {
                 client_data_base.add(client);
@@ -51,9 +58,9 @@ public class ClientDataAccess implements ClientDao {
     }
 
     /**
-     * Deletes a client from a DB
+     * Deletes a <b>client</b> from a DB.
      * @param client_name
-     * @return
+     * @return 0 - if Exception occurs, 1 - if deleted successfully.
      */
     @Override
     public int deleteClientByName(String client_name) {

@@ -27,14 +27,45 @@ table {
 
 table th,
 table td {
+margin:4em;
   padding: 5px;
+  border-width: 2px;
+  border-color: black;
 }
-table tr, h3{
+table tr, h3, td{
 padding: 15px;
 }
 
+div{
+margin:1em;
+}
+p{
+overflow: wrap;
+}
 table.table-out td{
 border-width: 2px;
 border-collapse:collapse;
 border-color: gray;
+}
+table.table-table-striped{
+border-width: 2px;
+border-color: black;
+padding: 5rm;
+border-collapse: collapse;
+}
+
+table.table-table-striped tr, td{
+border-width: 1px;
+border-color: black;
+margin: 10rm;
+padding: 10px;
+}
+
+input.search-field{
+width: 150rm;
+}
+
+.field-invalid{
+weight: bold;
+color: coral;
 }
