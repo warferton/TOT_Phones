@@ -65,7 +65,6 @@ public class ClientController {
             return "index";
         }
 
-        client_service.addClient(new_client);
         model.addAttribute("clients", client_service.findAll());
         return getClientList(model);
     }

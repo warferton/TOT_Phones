@@ -7,12 +7,13 @@ import javax.validation.constraints.Size;
 
 public class Client{
     @NotBlank
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 100, message = "The client name must be at least 4 characters long (max 100 characters)")
     private String name;
 
     @NotBlank
-    @Size(min = 10, max = 13)
-    @Pattern(regexp = "^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$")
+    @Size(min = 10, message = "The phone number should be 10 digits long")
+    @Pattern(regexp = "^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$",
+            message = "The phone number should follow the pattern: '123-456-7890'")
     private String phone;
 
     public Client(String name, String phone){

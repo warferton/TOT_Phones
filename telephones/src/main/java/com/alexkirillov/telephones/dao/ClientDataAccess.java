@@ -4,6 +4,7 @@ import com.alexkirillov.telephones.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -29,12 +30,12 @@ public class ClientDataAccess implements ClientDao {
     /**
      *Adds a new <b>client</b> to the Data Base. Checks if a client with
      * simmilar phone number or name exists, and if not adds new client.
-     * @param client
+     * @param client - a Client object
      * @return 1 - if a new client was added successfully. 2 - if a client has an
      *              already used phone or name.
      */
     @Override
-    public int addClient(@NotNull Client client) {
+    public int addClient(@Valid @NotNull Client client) {
         /*не совсем понял условие техзадания
          * наличие в базе двух людей с одинаковыми
          * номерами вызовет проюлемы, как и наличие
@@ -43,12 +44,16 @@ public class ClientDataAccess implements ClientDao {
          * что говорит именно о паре "имя-номер".
          * Данная функция не позволяет добавлять именно одинаковые пары "имя-номер",
          * но допускает клиентов с одинаковыми номерами.
+         *
+         * **DATED**
+         *
          */
 
-
-        if(findClientByPhone(client.getPhone()).equals(client.getPhone()))
+        if(!getAllPhones().contains(client.getPhone()))
         {
-            if(!findClientByName(client.getName()).equals(client.getName())) {
+            if(!getAllNames().contains(client.getName())) {
+                boolean name = findClientByName(client.getName()).equals(client.getName());
+
                 client_data_base.add(client);
                 return 1;
             }
@@ -59,7 +64,7 @@ public class ClientDataAccess implements ClientDao {
 
     /**
      * Deletes a <b>client</b> from a DB.
-     * @param client_name
+     * @param client_name - name of a client
      * @return 0 - if Exception occurs, 1 - if deleted successfully.
      */
     @Override
@@ -80,11 +85,11 @@ public class ClientDataAccess implements ClientDao {
      * Function utilizes Java.stream() to scan through the list
      * and find every person that suits criteria of having the same name,
      * returns list of clients whos name that starts with the <i>client_name</i> String.
-     * @param client_name (<b>name</b> or <b>prefix</b>)
+     * @param client_name - <b>name</b> or <b>prefix</b> of some clients name
      * @return List<Client>
      */
     @Override
-    public List<Client> findClientByName(String client_name) {
+    public List<Client> findClientByName(@NotBlank String client_name) {
         return client_data_base.stream().distinct()
                         .filter(a -> a.getName().toLowerCase()
                         .startsWith(client_name.toLowerCase()))
@@ -99,14 +104,33 @@ public class ClientDataAccess implements ClientDao {
     * be identical to already existing ones.
     * Basically, for checking if such phone number
     * is already used by an existing client
-    * @param client_phone
+    * @param client_phone - clients phone
     * @return List<Client>.
     * */
     @Override
-    public List<Client> findClientByPhone(String client_phone) {
+    public List<Client> findClientByPhone(@NotBlank String client_phone) {
         return client_data_base.stream().distinct()
-                .filter(a -> a.getPhone().toLowerCase()
-                        .contains(client_phone.toLowerCase()))
+                .filter(a -> a.getPhone().contains(client_phone))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Retrieves all phone numbers of all clients stored in the database.
+     * @return List of phone numbers
+     *
+     */
+    private List<String> getAllPhones(){
+        return client_data_base.stream().distinct()
+                .map(a -> {return a.getPhone();}).collect(Collectors.toList());
+    }
+
+    /**
+     * Retrieves all names of all clients stored in the database.
+     * @return List of phone numbers
+     *
+     */
+    private List<String> getAllNames(){
+        return client_data_base.stream().distinct()
+                .map(a -> {return a.getName();}).collect(Collectors.toList());
     }
 }

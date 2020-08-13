@@ -2,63 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
 
-        <table>
+        <table class="table table-borderless px-5 ">
             <tbody>
             <tr>
                 <td>
-                    <h3>Clients Search</h3>
+                    <h2>Clients Search</h2>
                 </td>
             </tr>
-            <tr>
+            <tr class="row no-gutters">
                 <form action="#" th:action="@{/findClient}" th:object="${search_prefix}" method="GET">
-                    <td><input type="submit" value="Search"/></td>
-                    <td><input class="search-field" type="text" th:name="@{search_prefix}" required/></td>
+                    <td><input type="submit" value="Search" class="btn btn-dark"/></td>
+                    <td><input class="input-group-text" type="text" th:name="@{search_prefix}" required/></td>
                 </form>
             </tr>
             <tr><td>
-                <h4>Add New Client:</h4>
+                <h3>Add New Client:</h3>
             </td></tr>
-            <tr>
-                <td><p>Name</p></td>
-                <td><p>Phone</p></td>
+            <tr class="row">
+                <td><h4>Name</h4></td>
+                <td><h4>Phone</h4></td>
             </tr>
             <form action="#" th:action="@{/addUser}" th:object="${client}" method="POST">
-                <tr>
+                <tr class="row">
                     <td><input type="text" class="parameter-field" th:name="@{newClient.name}" th:field="*{name}" placeholder="John Smith" required></td>
                     <td><input type="tel" class="parameter-field" th:name="@{newClient.phone}" th:field="*{phone}" placeholder="123-456-7890" required></td>
                     <td><input type="submit" value="Add Client"/></td>
                     <td th:if="${not #fields.hasErrors('name')}">
                         <div th:if="${not #fields.hasErrors('phone')}">
-                            <p th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="field-invalid"></p>
+                            <p th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}" class="alert alert-warning" role="alert"></p>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field-invalid"></td>
-                    <td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="field-invalid"></td>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-warning" role="alert"></div>
+                    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="alert alert-warning" role="alert"></div>
                 </tr>
             </form>
             </tbody>
         </table>
-        <div>
-            <a href="#" th:href="@{/}"><input type="button" value="Display All"></a>
+        <div >
+            <a href="#" th:href="@{/}"><input type="button" value="Display All" class="btn btn-outline-dark"></a>
         </div>
-            <div class="output">
-                <div th:if="${#lists.isEmpty(clients)}" class="field-invalid" th:text="'Nothing Found'"></div>
-            <table th:class="table-table-striped" th:if="${not #lists.isEmpty(clients)}">
-                    <thead>
+            <div class="output" calss="table-responsive px-4">
+                <div th:if="${#lists.isEmpty(clients)}" class="alert alert-danger" role="alert" th:text="'Nothing Found'"></div>
+            <table class="table table-hover border" th:if="${not #lists.isEmpty(clients)}" >
+                    <thead class="thead-dark">
                         <tr>
-                            <td>Name</td>
-                            <td> Phone Number</td>
+                            <th scope="col"><p class="h4">Name</p></th>
+                            <th scope="col"><p class="h4">Phone Number</p></th>
+                            <th scope="col"/>
                         </tr>
                     </thead>
-                    <tr th:each="client : ${clients}">
-                        <td th:text="${client.name}"></td>
-                        <td th:text="${client.phone}"></td>
-                        <td><a th:href="@{/deleteClient/{name}(name=${client.name})}" class="btn-link"/>Delete</td>
+                    <tr th:each="client : ${clients}" >
+                        <td class="col"><p th:text="${client.name}" class="h5"></p></td>
+                        <td class="col"><p th:text="${client.phone}" class="h5"></p></td>
+                        <td><a th:href="@{/deleteClient/{name}(name=${client.name})}" class="col btn btn-secondary btn-lg">Delete</a></td>
                     </tr>
                 </table>
             </div>
