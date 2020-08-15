@@ -7,8 +7,10 @@ DAO package has to DataAccess java classes, one for postgres database implementa
 one for in-memory database implementation (Testing purposes).
 
 Default application.yml settings are as follows:
-      port: 5432
-      username: postgres
-      password: password
-      host: localhost
-      databaseName: clients
+<ul>
+      <li>port: 5432</li>
+      <li>username: postgres</li>
+      <li>password: password</li>
+      <li>host: localhost</li>
+      <li>databaseName: clients</li>
+</ul>
