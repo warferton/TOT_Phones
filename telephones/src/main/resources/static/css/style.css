@@ -9,3 +9,11 @@ table {
 .output table td.out-client-info {
     width:45%;
 }
+
+input.parameter-field, label{
+    display: block;
+}
+label{
+    font-weight: bold;
+    font-size: large;
+}

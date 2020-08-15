@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository("fakeDB")
-public class ClientDataAccess implements ClientDao {
+public class ClientFakeDataAccess implements ClientDao {
     private static List<Client> client_data_base;
 
     @Autowired
-    public ClientDataAccess() {
+    public ClientFakeDataAccess() {
         //in-memory data base implementation
         client_data_base = new ArrayList<>();
         client_data_base.add(new Client("Jacke Haul", "123-857-7293"));
@@ -35,31 +35,16 @@ public class ClientDataAccess implements ClientDao {
      *              already used phone or name.
      */
     @Override
-    public int addClient(@Valid @NotNull Client client) {
-        /*не совсем понял условие техзадания
-         * наличие в базе двух людей с одинаковыми
-         * номерами вызовет проюлемы, как и наличие
-         * двух людей с одинаковыми именами (номера могут отличаться)
-         * однако в ТЗ указано "Дубли имён-номеров добавлять нельзя",
-         * что говорит именно о паре "имя-номер".
-         * Данная функция не позволяет добавлять именно одинаковые пары "имя-номер",
-         * но допускает клиентов с одинаковыми номерами.
-         *
-         * **DATED**
-         *
-         */
-
+    public boolean addClient(Client client) {
         if(!getAllPhones().contains(client.getPhone()))
         {
             if(!getAllNames().contains(client.getName())) {
-                boolean name = findClientByName(client.getName()).equals(client.getName());
-
                 client_data_base.add(client);
-                return 1;
+                return true;
             }
         }
 
-        return 0;
+        return false;
     }
 
     /**
@@ -68,12 +53,10 @@ public class ClientDataAccess implements ClientDao {
      * @return 0 - if Exception occurs, 1 - if deleted successfully.
      */
     @Override
-    public int deleteClientByName(String client_name) {
+    public boolean deleteClientByName(String client_name) {
         Client client_to_delete = findClientByName(client_name).get(0);
-        if(client_to_delete.equals(null))
-            return 0;
         client_data_base.remove(client_to_delete);
-        return 1;
+        return true;
     }
 
     @Override
@@ -89,7 +72,7 @@ public class ClientDataAccess implements ClientDao {
      * @return List<Client>
      */
     @Override
-    public List<Client> findClientByName(@NotBlank String client_name) {
+    public List<Client> findClientByName(String client_name) {
         return client_data_base.stream().distinct()
                         .filter(a -> a.getName().toLowerCase()
                         .startsWith(client_name.toLowerCase()))
@@ -108,7 +91,7 @@ public class ClientDataAccess implements ClientDao {
     * @return List<Client>.
     * */
     @Override
-    public List<Client> findClientByPhone(@NotBlank String client_phone) {
+    public List<Client> findClientByPhone(String client_phone) {
         return client_data_base.stream().distinct()
                 .filter(a -> a.getPhone().contains(client_phone))
                 .collect(Collectors.toList());
@@ -119,7 +102,7 @@ public class ClientDataAccess implements ClientDao {
      * @return List of phone numbers
      *
      */
-    private List<String> getAllPhones(){
+    public List<String> getAllPhones(){
         return client_data_base.stream().distinct()
                 .map(a -> {return a.getPhone();}).collect(Collectors.toList());
     }
@@ -129,7 +112,7 @@ public class ClientDataAccess implements ClientDao {
      * @return List of phone numbers
      *
      */
-    private List<String> getAllNames(){
+    public List<String> getAllNames(){
         return client_data_base.stream().distinct()
                 .map(a -> {return a.getName();}).collect(Collectors.toList());
     }

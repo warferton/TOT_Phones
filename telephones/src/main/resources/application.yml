@@ -1,0 +1,9 @@
+app:
+  datasource:
+    postgres:
+      port: 5432
+      username: postgres
+      password: password
+      host: localhost
+      databaseName: clients
+      jdbc-url: jdbc:postgresql://${app.datasource.postgres.host}:${app.datasource.postgres.port}/${app.datasource.postgres.databaseName}

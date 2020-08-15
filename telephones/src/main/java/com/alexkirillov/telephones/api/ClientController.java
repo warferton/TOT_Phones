@@ -6,13 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 
 @Controller
@@ -31,7 +28,7 @@ public class ClientController {
     }
 
     @RequestMapping(value = {"/findClient"}, method = RequestMethod.GET)
-    public String findClient(@NotBlank @Valid @ModelAttribute("search_prefix") String prefix,
+    public String findClient(@Valid @ModelAttribute("search_prefix") String prefix,
                              BindingResult bindingResult, Model model)
     {
         if(prefix.isBlank()){
@@ -52,18 +49,19 @@ public class ClientController {
     }
 
     @RequestMapping(value = {"/addUser"}, method = RequestMethod.POST)
-    public String addUser(@Valid @NotNull @ModelAttribute("client") Client new_client,
-                          BindingResult bindingResult, Model model)
-    {
-        if(client_service.addClient(new_client) == 0)
-            bindingResult.addError(
-                    new ObjectError
-                            ("client", "Client With Such Name or Number Already Exists"));
-
-        if(bindingResult.hasErrors()){
+    public String addUser(@Valid @ModelAttribute("client") Client new_client,
+                          BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("clients", client_service.findAll());
             return "index";
         }
+        if (client_service.addClient(new_client) == false){
+            bindingResult.addError(
+                    new ObjectError
+                            ("client", "Client With Such Name or Number Already Exists"));
+            return "index";
+        }
+
 
         model.addAttribute("clients", client_service.findAll());
         return getClientList(model);
