@@ -19,12 +19,12 @@ public class ClientFakeDataAccess implements ClientDao {
     public ClientFakeDataAccess() {
         //in-memory data base implementation
         client_data_base = new ArrayList<>();
-        client_data_base.add(new Client("Jacke Haul", "123-857-7293"));
-        client_data_base.add(new Client("Nick Kyekr", "129-945-6353"));
-        client_data_base.add(new Client("Many Loe", "122-356-7973"));
-        client_data_base.add(new Client("Colin Paul", "123-857-7293"));
-        client_data_base.add(new Client("Xavier Aiden", "123-854-7599"));
-        client_data_base.add(new Client("Koers McKenzie", "128-800-4583"));
+//        client_data_base.add(new Client("Jacke Haul", "123-857-7293"));
+//        client_data_base.add(new Client("Nick Kyekr", "129-945-6353"));
+//        client_data_base.add(new Client("Many Loe", "122-356-7973"));
+//        client_data_base.add(new Client("Colin Paul", "123-857-7293"));
+//        client_data_base.add(new Client("Xavier Aiden", "123-854-7599"));
+//        client_data_base.add(new Client("Koers McKenzie", "128-800-4583"));
     }
 
     /**

@@ -1,13 +1,13 @@
 package com.alexkirillov.telephones.model;
 
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class Client{
     @NotBlank
-    @Size(min = 4, max = 100, message = "The client name must be at least 4 characters long (max 100 characters)")
+    @Size(min = 4, max = 100,
+            message = "The client name must be at least 4 characters long (max 100 characters)")
     private String name;
 
     @NotBlank

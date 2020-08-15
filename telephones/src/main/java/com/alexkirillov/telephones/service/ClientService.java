@@ -1,12 +1,12 @@
 package com.alexkirillov.telephones.service;
 
 import com.alexkirillov.telephones.dao.ClientDao;
-import com.alexkirillov.telephones.dao.ClientFakeDataAccess;
 import com.alexkirillov.telephones.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
